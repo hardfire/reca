@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Cards</title>
+  <style type="text/css" media="screen">
+    #cardFront,#cardCanvas{
+      border:1px solid #aaa;
+      margin:5px;
+      position:absolute;
+      left:-9999px;
+    }
+    #cardFront{
+      position:absolute;
+      left:-9999px;
+    }
+  </style>
+  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script> 
+  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/StackBlur.js"></script>
+  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
+</head>
+<body>
+  <a href="#" id="downloadCard">Generating Cards ... </a>
+  <object data="remo_card_front.svg" type="image/svg+xml" width="1254px" height="812px" id="cardFront"></object>
+  <canvas id="cardCanvas" width="1254px" height="812px"></canvas>
+  <script type="text/javascript">
+    var rep = {
+      name : "Avinash Kundaliya",
+      email : "avinash@avinash.com.np",
+      website : "http://avinash.me",
+      twitter : "hardfire",
+      identica : "hardfire"
+    };
+    var cardEl = document.getElementById("cardFront");
+
+    cardEl.addEventListener("load",function(){
+      var card;
+      try {card=cardEl.getSVGDocument()}
+      catch(card){card=cardEl.contentDocument}
+      card.getElementById("fullname").textContent = rep.name;
+      card.getElementById("group-0-item-0-value").textContent = rep.email;
+      canvg(
+        'cardCanvas',
+        (new XMLSerializer).serializeToString(document.getElementById('cardFront').contentDocument),
+        {
+          offsetX:0,
+          offsetY:0,
+          scaleWidth:1254,
+          scaleHeight:812,
+          renderCallback:function(){
+            document.getElementById('cardCanvas').click();
+            document.getElementById('downloadCard').textContent =  "Download Card"
+          }
+        }
+      );
+    });
+
+    document.getElementById("downloadCard").addEventListener("click",function(){
+      var canvas = document.getElementById('cardCanvas');
+      window.open(canvas.toDataURL('png'));
+      return false;
+    }); 
+  </script>
+</body>
+</html>
