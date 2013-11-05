@@ -3,128 +3,27 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <title>Mozilla Reps Card Generator</title>
-  <style type="text/css" media="screen">
-    @font-face {
-      font-family: 'MetaBold-Roman';
-      src: url('MtBdRg.ttf');
-    }
-    @font-face {
-      font-family: 'MetaBook-Roman';
-      src: url('MtBR.ttf');
-    }
-    @font-face {
-      font-family: 'MetaBoldLF-Roman';
-      src: url('MtBdLFR.ttf');
-    }
-    @font-face {
-      font-family: 'MetaBoldLF-Caps';
-      src: url('MtBdLFC.ttf');
-    }
-    #cardFront,#cardCanvas{
-      border:1px solid #aaa;
-      margin:5px;
-      position:absolute;
-      left:-9999px;
-      top:-9999px;
-    }
-    #cardFront{
-      position:absolute;
-      left:-9999px;
-      top:-9999px;
-    }
-    #downloadCard{
-      display:none;
-    }
-    #loading{
-      animation: rotation 1s infinite linear;
-      display:inline-block;
-    }
-    @keyframes rotation {
-      from {transform: rotate(0deg);}
-      to   {transform: rotate(359deg);}
-    }
-  </style>
-  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script> 
+  <link rel="stylesheet" type="text/css" href="cards.css">
+  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
   <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/StackBlur.js"></script>
-  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
+  <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
 </head>
 <body>
+  <form id="cardData">
+    <input type="text" name="name" placeholder="Full Name" required> 
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="url" name="website" placeholder="Website http://reps.mozilla.org" url> <br />
+    <input type="text" name="twitter" placeholder="Twitter Handle (handle)">
+    <input type="text" name="identica" placeholder="Identi.ca Handle (handle)">
+    <input type="submit" id="GenerateSubmit" value="Generate Card">
+  </form>
+  <br />
+  <img src="images/design.jpg" alt="That's what the card will look like">
   <div id="generating"> <span id="loading">&#x21bb;</span> Generating Cards ... </div>
-  <a href="#" id="downloadCard">Download Card</a>
-  <object data="remo_card_front.svg" type="image/svg+xml"  id="cardFront" width="1254px" height="812px"></object>
-  <canvas id="cardCanvas" width="1254px" height="812px"></canvas>
-  <script type="text/javascript">
-    var rep = {
-      name : "Avinash Kundaliya",
-      email : "avinash@avinash.com.np",
-      website : "http://avinash.me",
-      twitter : "hardfire"
-    };
-    var cardEl = document.getElementById("cardFront");
-
-    cardEl.addEventListener("load",function(){
-
-      var card;
-      try {card=cardEl.getSVGDocument()}
-      catch(card){card=cardEl.contentDocument}
-
-      card.getElementById("fullname").textContent = rep.name;
-      card.getElementById("group-0-item-0-value").textContent = rep.email;
-
-      if(rep.website){
-        card.getElementById("group-0-item-1-value").textContent = rep.website;
-      } else {
-        //remove lower website and replace upper one with mozillareps.org
-        card.getElementById("group-0-item-1-value").textContent = "http://mozillareps.org";
-        var websiteNode = card.getElementById("text2962");
-        websiteNode.parentNode.removeChild(websiteNode);
-      }
-
-      if(rep.twitter){
-        card.getElementById("group-1-item-0-value").textContent = "@"+rep.twitter;
-      } else {
-        //remove label and value
-        var twitterNode = card.getElementById("text2966"),
-            handleNode = card.getElementById("text2978");
-        twitterNode.parentNode.removeChild(twitterNode);
-        handleNode.parentNode.removeChild(handleNode)
-      }
-
-      if(rep.identica){
-        card.getElementById("group-1-item-1-value").textContent = "@"+rep.identica;
-      } else {
-        //remove label and value
-        var identicaNode = card.getElementById("text2970"),
-            handleNode = card.getElementById("text2974");
-        identicaNode.parentNode.removeChild(identicaNode);
-        handleNode.parentNode.removeChild(handleNode)
-      }
-
-      canvg(
-        'cardCanvas',
-        (new XMLSerializer).serializeToString(document.getElementById('cardFront').contentDocument),
-        {
-          offsetX:0,
-          offsetY:0,
-          scaleWidth:1254,
-          scaleHeight:812,
-          renderCallback:function(){
-            document.getElementById('cardCanvas').click();
-            //just to make sure the fonts have rendered.
-            setTimeout(function(){
-              document.getElementById('generating').style.display = "none";
-              document.getElementById('downloadCard').style.display = "block";
-            }, 1000);
-          }
-        }
-      );
-    });
-
-    document.getElementById("downloadCard").addEventListener("click",function(){
-      var canvas = document.getElementById('cardCanvas');
-      window.open(canvas.toDataURL('png'));
-      return false;
-    }); 
-  </script>
+  <a href="#" id="downloadCard">Download Card [Front]</a>
+  <a href="images/remo_card_back.png" id="downloadBack" target="_blank">Download Card [Back]</a>
+  <object data="images/remo_card_front.svg" type="image/svg+xml"  id="cardFront" width="1254px" height="812px"></object>
+  <div id="cardCanvas"><canvas></canvas></div>
+  <script type="text/javascript" src="cards.js"></script>
 </body>
 </html>
