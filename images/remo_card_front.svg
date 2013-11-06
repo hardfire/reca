@@ -40,18 +40,6 @@
      inkscape:guide-bbox="true" />
   <defs
      id="defs4">
-     <style type="text/css">
-     <![CDATA[
-     @font-face {
-        font-family: 'MetaBold-Roman';
-        src: url('MtBdRg.ttf');
-     }
-     @font-face {
-        font-family: 'MetaBook-Roman';
-        src: url('MtBdRg.ttf');
-     }
-    ]]>
-    </style>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
        inkscape:vp_x="0 : 97.440948 : 1"
