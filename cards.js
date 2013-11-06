@@ -62,6 +62,9 @@ function populateCard(){
     handleNode.parentNode.removeChild(handleNode)
   }
 
+  //remove PR SIG Text Label
+  card.getElementById("sig").textContent = "";
+
   //delete previous canvas and create new
   //canvg updates the previous one automatically updating the changes
   var c = document.createElement('canvas');
